@@ -36,6 +36,7 @@ const TimeLabel = styled.div`
 function DaylightGraph() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [labelHeight, setLabelHeight] = useState(20);
+  const [aspectRatio, setAspectRatio] = useState(1);
   const labelRef = React.useRef(null);
   const containerRef = React.useRef(null);
 
@@ -49,25 +50,35 @@ function DaylightGraph() {
   useEffect(() => {
     if (!labelRef.current || !containerRef.current) return;
 
-    const updateLabelHeight = () => {
+    const updateDimensions = () => {
       if (labelRef.current && containerRef.current) {
         const labelPixelHeight = labelRef.current.offsetHeight;
         const containerPixelHeight = containerRef.current.offsetHeight;
+        const containerPixelWidth = containerRef.current.offsetWidth;
 
         // Convert pixel height to SVG viewBox units
-        // SVG height is 300 in viewBox, so we need to scale accordingly
-        const svgViewBoxHeight = 300;
+        // SVG height is 256 in viewBox, so we need to scale accordingly
+        const svgViewBoxHeight = 256;
         const labelInSvgUnits =
           (labelPixelHeight / containerPixelHeight) * svgViewBoxHeight;
         setLabelHeight(labelInSvgUnits + 8); // Add some padding
+
+        // Calculate aspect ratio to compensate for non-uniform scaling
+        // aspectRatio = (containerWidth / viewBoxWidth) / (containerHeight / viewBoxHeight)
+        const svgViewBoxWidth = 600;
+        if (containerPixelWidth > 0 && containerPixelHeight > 0) {
+          const scaleX = containerPixelWidth / svgViewBoxWidth;
+          const scaleY = containerPixelHeight / svgViewBoxHeight;
+          setAspectRatio(scaleX / scaleY);
+        }
       }
     };
 
     // Initial measurement
-    updateLabelHeight();
+    updateDimensions();
 
     // Watch for size changes on both label and container
-    const resizeObserver = new ResizeObserver(updateLabelHeight);
+    const resizeObserver = new ResizeObserver(updateDimensions);
     resizeObserver.observe(labelRef.current);
     resizeObserver.observe(containerRef.current);
 
@@ -235,7 +246,13 @@ function DaylightGraph() {
           strokeWidth="3"
         />
         {/* Current sun position */}
-        <circle cx={currentX} cy={currentY} r="8" fill="#fff" />
+        <ellipse
+          cx={currentX}
+          cy={currentY}
+          rx={8 / aspectRatio}
+          ry={8}
+          fill="#fff"
+        />
       </GraphSvg>
       {/* Time labels as HTML */}
       {hours.map((hour, index) => {

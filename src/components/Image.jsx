@@ -22,9 +22,9 @@ const LoadingPlaceholder = styled.div`
 `;
 
 const StyledImage = styled.img`
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
+  width: 90%;
+  height: 90%;
+  max-height: 90%;
   border-radius: 50%;
   object-fit: cover;
   object-position: center center;
