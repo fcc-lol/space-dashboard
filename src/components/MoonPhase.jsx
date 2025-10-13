@@ -17,46 +17,12 @@ const LoadingMessage = styled.div`
   color: ${(props) => props.theme?.text || "inherit"};
 `;
 
-function getMoonPhaseName(illum, age) {
-  const synodicMonth = 29.53;
-  const halfMonth = synodicMonth / 2;
-
-  // Determine if waxing or waning
-  const waxing = age < halfMonth;
-
-  let name = "";
-
-  // Very rough but practical ranges
-  if (illum <= 1) {
-    name = "New Moon";
-  } else if (illum < 25) {
-    name = waxing ? "Waxing Crescent" : "Waning Crescent";
-  } else if (illum < 50) {
-    // Age helps us decide between crescent and quarter
-    if (waxing && age < 7.4) {
-      name = "Waxing Crescent";
-    } else if (!waxing && age > 22.1) {
-      name = "Waning Crescent";
-    } else {
-      name = waxing ? "First Quarter" : "Last Quarter";
-    }
-  } else if (illum < 99) {
-    name = waxing ? "Waxing Gibbous" : "Waning Gibbous";
-  } else {
-    name = "Full Moon";
-  }
-
-  return { name };
-}
-
-function MoonPhase({ theme, illumination, age }) {
-  if (!illumination || !age) {
+function MoonPhase({ theme, phaseName }) {
+  if (!phaseName) {
     return <LoadingMessage theme={theme}>Loading Phase</LoadingMessage>;
   }
 
-  const phase = getMoonPhaseName(illumination, age);
-
-  return <PhaseName theme={theme}>{phase.name}</PhaseName>;
+  return <PhaseName theme={theme}>{phaseName}</PhaseName>;
 }
 
 export default MoonPhase;

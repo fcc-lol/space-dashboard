@@ -118,11 +118,7 @@ function Moon({ theme }) {
           style={{ flex: 1, gridColumn: "2 / 4" }}
           padding="0"
         >
-          <MoonPhase
-            theme={theme}
-            illumination={moonData?.phase}
-            age={moonData?.age}
-          />
+          <MoonPhase theme={theme} phaseName={moonData?.usno?.phase} />
         </Card>
         <div
           style={{
