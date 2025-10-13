@@ -249,8 +249,8 @@ function DaylightGraph() {
         <ellipse
           cx={currentX}
           cy={currentY}
-          rx={8 / aspectRatio}
-          ry={8}
+          rx={6 / aspectRatio}
+          ry={6}
           fill="#fff"
         />
       </GraphSvg>

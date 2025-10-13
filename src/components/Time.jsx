@@ -20,7 +20,7 @@ function TimeInfo() {
     return `${hours}:${minutes.toString().padStart(2, "0")}${ampm}`;
   };
 
-  return <BigValue label="Current Time" value={formatTime(currentTime)} />;
+  return <BigValue label="New York Time" value={formatTime(currentTime)} />;
 }
 
 export default TimeInfo;

@@ -4,7 +4,7 @@ import DaylightGraph from "../components/DaylightGraph";
 import Image from "../components/Image";
 import TimeInfo from "../components/Time";
 import SunTimesTable from "../components/SunTimesTable";
-import AdditionalData from "../components/AdditionalData";
+import RecentEvents from "../components/RecentEvents";
 import BigValue from "../components/BigValue";
 import { useWeatherData } from "../hooks/useWeatherData";
 
@@ -19,6 +19,7 @@ const Card = styled.div`
   border: 2px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
   overflow: auto;
+  outline: none;
 
   ${(props) => {
     if (props.type === "square") {
@@ -88,8 +89,8 @@ function Sun() {
       <Card padding="0" $justifyContent="flex-start">
         <SunTimesTable />
       </Card>
-      <Card style={{ gridColumn: "2 / 4" }}>
-        <AdditionalData />
+      <Card style={{ gridColumn: "2 / 4" }} padding="0">
+        <RecentEvents />
       </Card>
     </Container>
   );
