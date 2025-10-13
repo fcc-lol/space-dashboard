@@ -78,7 +78,7 @@ function Sun() {
         <Image
           src="https://space-api.fcc.lol/sun/image?wavelength=304"
           placeholderBackgroundColor="rgba(139, 0, 0, 0.25)"
-          placeholderSize="80%"
+          placeholderSize="75%"
           aspectRatio="auto"
         />
       </Card>
