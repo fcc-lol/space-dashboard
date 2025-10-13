@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import DaylightGraph from "../components/DaylightGraph";
 import Image from "../components/Image";
@@ -55,6 +55,15 @@ const Grid = styled.div`
 
 function Sun({ theme }) {
   const { data, loading } = useWeatherData();
+
+  useEffect(() => {
+    document.title = "Sun Dashboard";
+    const link = document.querySelector("link[rel~='icon']");
+    if (link) {
+      link.href =
+        "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌞</text></svg>";
+    }
+  }, []);
 
   return (
     <Grid theme={theme}>

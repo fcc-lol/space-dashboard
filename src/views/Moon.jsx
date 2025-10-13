@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import MoonPhase from "../components/MoonPhase";
 import MoonProgress from "../components/MoonProgress";
@@ -57,6 +57,15 @@ const Container = styled.div`
 function Moon({ theme }) {
   const { data: moonData, loading: moonLoading } = useMoonData();
 
+  useEffect(() => {
+    document.title = "Moon Dashboard";
+    const link = document.querySelector("link[rel~='icon']");
+    if (link) {
+      link.href =
+        "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌚</text></svg>";
+    }
+  }, []);
+
   return (
     <Container theme={theme}>
       <Card theme={theme} type="compact" padding="0">
@@ -104,6 +113,7 @@ function Moon({ theme }) {
           theme={theme}
           type="compact"
           style={{ flex: 1, gridColumn: "2 / 4" }}
+          padding="0"
         >
           <MoonPhase illumination={moonData?.phase} age={moonData?.age} />
         </Card>
@@ -115,7 +125,7 @@ function Moon({ theme }) {
             flex: 1
           }}
         >
-          <Card theme={theme}>
+          <Card theme={theme} padding="0">
             <BigValue
               theme={theme}
               label="Illuminated"
@@ -127,7 +137,7 @@ function Moon({ theme }) {
               loading={moonLoading || !moonData}
             />
           </Card>
-          <Card theme={theme}>
+          <Card theme={theme} padding="0">
             <BigValue
               theme={theme}
               label="Age"
