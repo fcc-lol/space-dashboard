@@ -3,9 +3,7 @@ import styled from "styled-components";
 import MoonPhase from "../components/MoonPhase";
 import MoonProgress from "../components/MoonProgress";
 import Image from "../components/Image";
-import TimeInfo from "../components/Time";
 import Table from "../components/Table";
-import RecentEvents from "../components/RecentEvents";
 import BigValue from "../components/BigValue";
 import { useMoonData } from "../hooks/useMoonData";
 
