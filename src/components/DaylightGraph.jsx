@@ -243,7 +243,7 @@ function DaylightGraph() {
           stroke="url(#sunPathGradient)"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
-          strokeWidth="3"
+          strokeWidth="6"
         />
         {/* Current sun position */}
         <ellipse

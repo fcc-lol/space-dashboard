@@ -23,7 +23,7 @@ const Label = styled.div`
 
 const Value = styled.div`
   font-size: 3rem;
-  font-weight: ${(props) => (props.$loading ? 400 : 600)};
+  font-weight: ${(props) => (props.$loading ? 300 : 500)};
   opacity: ${(props) => (props.$loading ? 0.1 : 1)};
   transition: opacity 0.3s ease;
   text-align: center;
