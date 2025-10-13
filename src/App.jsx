@@ -1,18 +1,16 @@
 import React from "react";
-import styled from "styled-components";
-
-const Page = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-size: 24px;
-  color: #333;
-`;
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Sun from "./views/Sun";
 
 function App() {
-  return <Page>Hello from Space Dashboard!</Page>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/sun" element={<Sun />} />
+        <Route path="/" element={<Navigate to="/sun" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
-
