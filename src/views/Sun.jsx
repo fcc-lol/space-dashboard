@@ -63,14 +63,14 @@ function Sun() {
       <Card type="compact" padding="0">
         <BigValue
           label="UV Index"
-          value={loading || !data ? 0 : data.daily.uv_index_max[0].toFixed(2)}
+          value={loading || !data ? 0 : data.uv.now.uvi.toFixed(2)}
           loading={loading || !data}
         />
       </Card>
       <Card type="compact" padding="0">
         <BigValue
           label="Cloud Cover"
-          value={loading || !data ? 0 : `${data.current.cloud_cover}%`}
+          value={loading || !data ? 0 : `${data.cloudCover}%`}
           loading={loading || !data}
         />
       </Card>
