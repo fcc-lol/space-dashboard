@@ -59,7 +59,6 @@ function SunTimesTable() {
   };
 
   const rows = [
-    { label: "Location", value: "NYC" },
     { label: "Sunrise", value: formatTime(sunrise) },
     { label: "Solar Noon", value: formatTime(solarNoon) },
     { label: "Sunset", value: formatTime(sunset) },
