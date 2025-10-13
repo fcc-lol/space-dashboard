@@ -44,7 +44,7 @@ export function useWeatherData() {
     };
 
     fetchWeatherData();
-    const interval = setInterval(fetchWeatherData, 300000); // Refresh every 5 minutes
+    const interval = setInterval(fetchWeatherData, 900000); // Refresh every 15 minutes
 
     return () => clearInterval(interval);
   }, []);

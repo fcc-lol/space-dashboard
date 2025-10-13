@@ -43,7 +43,7 @@ function DaylightGraph() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 60000 * 15); // Update every 15 minutes
     return () => clearInterval(timer);
   }, []);
 

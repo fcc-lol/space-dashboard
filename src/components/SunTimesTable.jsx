@@ -9,7 +9,7 @@ function SunTimesTable() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 10000); // Update every 10 seconds
     return () => clearInterval(timer);
   }, []);
 

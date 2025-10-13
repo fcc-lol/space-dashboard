@@ -69,22 +69,29 @@ function RecentEvents() {
   const headerRef = useRef(null);
 
   useEffect(() => {
-    fetch("https://space-api.fcc.lol/cmes")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch CME data");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Get the 10 most recent CMEs
-        setCmeData(data.slice(0, 10));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching CME data:", err);
-        setLoading(false);
-      });
+    const fetchCMEData = () => {
+      fetch("https://space-api.fcc.lol/cmes")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch CME data");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Get the 10 most recent CMEs
+          setCmeData(data.slice(0, 10));
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching CME data:", err);
+          setLoading(false);
+        });
+    };
+
+    fetchCMEData();
+    const interval = setInterval(fetchCMEData, 60000 * 60); // Refresh every hour
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
