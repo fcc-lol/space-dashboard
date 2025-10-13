@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { LAT, LNG } from "../constants";
+import { getNYCTime } from "./useNYCTime";
 
 export function useMoonData() {
   const [data, setData] = useState(null);
@@ -9,11 +10,8 @@ export function useMoonData() {
   useEffect(() => {
     const fetchMoonData = async () => {
       try {
-        const now = new Date();
-        // Convert to NYC time (America/New_York)
-        const nycTime = new Date(
-          now.toLocaleString("en-US", { timeZone: "America/New_York" })
-        );
+        // Get NYC time
+        const nycTime = getNYCTime();
         // Format: YYYY-MM-DDTHH:MM
         const year = nycTime.getFullYear();
         const month = String(nycTime.getMonth() + 1).padStart(2, "0");

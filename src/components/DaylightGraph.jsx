@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SunCalc from "suncalc";
 import { LAT, LNG } from "../constants";
+import { useNYCTime } from "../hooks/useNYCTime";
 
 const Container = styled.div`
   position: relative;
@@ -33,18 +34,11 @@ const TimeLabel = styled.div`
 `;
 
 function DaylightGraph({ theme }) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const currentTime = useNYCTime(60000 * 15); // Update every 15 minutes
   const [labelHeight, setLabelHeight] = useState(20);
   const [aspectRatio, setAspectRatio] = useState(1);
   const labelRef = React.useRef(null);
   const containerRef = React.useRef(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000 * 15); // Update every 15 minutes
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     if (!labelRef.current || !containerRef.current) return;

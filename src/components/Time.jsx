@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import BigValue from "./BigValue";
+import { useNYCTime } from "../hooks/useNYCTime";
 
 function TimeInfo({ theme }) {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 10000); // Update every 10 seconds
-    return () => clearInterval(timer);
-  }, []);
+  const currentTime = useNYCTime(10000); // Update every 10 seconds
 
   // Format current time
   const formatTime = (date) => {

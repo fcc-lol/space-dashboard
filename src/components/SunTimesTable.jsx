@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import SunCalc from "suncalc";
 import { LAT, LNG } from "../constants";
 import Table from "./Table";
+import { useNYCTime } from "../hooks/useNYCTime";
 
 function SunTimesTable({ theme }) {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 10000); // Update every 10 seconds
-    return () => clearInterval(timer);
-  }, []);
+  const currentTime = useNYCTime(10000); // Update every 10 seconds
 
   // Calculate sun times
   const sunTimes = SunCalc.getTimes(currentTime, LAT, LNG);
