@@ -25,7 +25,7 @@ const Value = styled.div`
   font-size: 3rem;
   text-transform: uppercase;
   font-weight: ${(props) => (props.$loading ? 300 : 500)};
-  color: inherit;
+  color: ${(props) => props.theme?.text || "inherit"};
   opacity: ${(props) => (props.$loading ? 0.1 : 1)};
   transition: opacity 0.3s ease;
   text-align: center;
@@ -34,7 +34,9 @@ const Value = styled.div`
 function BigValue({ theme, label, value, loading }) {
   return (
     <Container>
-      <Value $loading={loading}>{value}</Value>
+      <Value theme={theme} $loading={loading}>
+        {value}
+      </Value>
       {label && <Label theme={theme}>{label}</Label>}
     </Container>
   );

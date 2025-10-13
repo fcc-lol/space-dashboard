@@ -39,17 +39,21 @@ const Value = styled.div`
   text-transform: uppercase;
   text-overflow: ellipsis;
   flex-shrink: 0;
+  letter-spacing: 0.05em;
   margin-left: 1rem;
   color: ${(props) => props.theme?.text || "inherit"};
+  opacity: ${(props) => (props.$loading ? 0.1 : 1)};
 `;
 
-function Table({ theme, rows }) {
+function Table({ theme, rows, loading }) {
   return (
     <Container>
       {rows.map((row, index) => (
         <Row key={index} theme={theme}>
           <Label theme={theme}>{row.label}</Label>
-          <Value theme={theme}>{row.value}</Value>
+          <Value theme={theme} $loading={loading}>
+            {row.value}
+          </Value>
         </Row>
       ))}
     </Container>

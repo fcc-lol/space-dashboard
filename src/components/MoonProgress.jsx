@@ -26,19 +26,16 @@ function MoonProgress({ theme, illumination, age }) {
   const useAge = age !== undefined && age !== null;
   const useIllumination = illumination !== undefined && illumination !== null;
 
-  if (!useAge && !useIllumination) {
-    return;
-  }
-
-  let filledBars;
+  let filledBars = 0;
   if (useAge) {
     // Age mode: 29.53 days total
     const SYNODIC_MONTH = 29.53;
     filledBars = Math.floor((age / SYNODIC_MONTH) * TOTAL_BARS);
-  } else {
+  } else if (useIllumination) {
     // Illumination mode: 0-100%
     filledBars = Math.floor((illumination / 100) * TOTAL_BARS);
   }
+  // If neither age nor illumination is available (loading), show all empty bars
 
   return (
     <Bars>

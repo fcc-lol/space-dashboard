@@ -2,8 +2,8 @@
   font-family: "DM Mono", monospace;
 
   ::selection {
-    background: rgba(255, 255, 255, 0.3);
-    color: #fff;
+    background: var(--selection-bg, rgba(255, 255, 255, 0.3));
+    color: var(--selection-text, #fff);
   }
 }
 

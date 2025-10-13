@@ -57,7 +57,9 @@ const EventNote = styled.p`
 
 const LoadingMessage = styled.div`
   font-size: 1rem;
-  color: ${(props) => props.theme?.secondaryText || "inherit"};
+  text-transform: uppercase;
+  opacity: 0.1;
+  color: ${(props) => props.theme?.text || "inherit"};
 `;
 
 function RecentEvents({ theme }) {
@@ -152,7 +154,7 @@ function RecentEvents({ theme }) {
   if (loading) {
     return (
       <Container>
-        <LoadingMessage theme={theme}>Loading recentevents</LoadingMessage>
+        <LoadingMessage theme={theme}>Loading recent events</LoadingMessage>
       </Container>
     );
   }

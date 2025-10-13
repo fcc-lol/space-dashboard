@@ -5,8 +5,16 @@ const PhaseName = styled.div`
   font-size: 3rem;
   font-weight: 500;
   text-align: center;
-  color: inherit;
+  color: ${(props) => props.theme?.text || "inherit"};
   text-transform: uppercase;
+`;
+
+const LoadingMessage = styled.div`
+  font-size: 3rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  opacity: 0.1;
+  color: ${(props) => props.theme?.text || "inherit"};
 `;
 
 function getMoonPhaseName(illum, age) {
@@ -41,14 +49,14 @@ function getMoonPhaseName(illum, age) {
   return { name };
 }
 
-function MoonPhase({ illumination, age }) {
+function MoonPhase({ theme, illumination, age }) {
   if (!illumination || !age) {
-    return;
+    return <LoadingMessage theme={theme}>Loading Phase</LoadingMessage>;
   }
 
   const phase = getMoonPhaseName(illumination, age);
 
-  return <PhaseName>{phase.name}</PhaseName>;
+  return <PhaseName theme={theme}>{phase.name}</PhaseName>;
 }
 
 export default MoonPhase;

@@ -62,7 +62,12 @@ function Moon({ theme }) {
       link.href =
         "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌚</text></svg>";
     }
-  }, []);
+    document.documentElement.style.setProperty("--selection-bg", theme.primary);
+    document.documentElement.style.setProperty(
+      "--selection-text",
+      theme.background
+    );
+  }, [theme]);
 
   return (
     <Container theme={theme}>
@@ -113,7 +118,11 @@ function Moon({ theme }) {
           style={{ flex: 1, gridColumn: "2 / 4" }}
           padding="0"
         >
-          <MoonPhase illumination={moonData?.phase} age={moonData?.age} />
+          <MoonPhase
+            theme={theme}
+            illumination={moonData?.phase}
+            age={moonData?.age}
+          />
         </Card>
         <div
           style={{
@@ -152,9 +161,27 @@ function Moon({ theme }) {
       <Card theme={theme} padding="0" $justifyContent="flex-start">
         <Table
           theme={theme}
+          loading={moonLoading || !moonData}
           rows={
             moonLoading || !moonData
-              ? []
+              ? [
+                  {
+                    label: "Diameter",
+                    value: "0000.0′"
+                  },
+                  {
+                    label: "Distance",
+                    value: "000,000 mi"
+                  },
+                  {
+                    label: "Position Angle",
+                    value: "0.00°"
+                  },
+                  {
+                    label: "Obscuration",
+                    value: "0.0%"
+                  }
+                ]
               : [
                   {
                     label: "Diameter",
