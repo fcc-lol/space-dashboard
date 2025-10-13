@@ -146,24 +146,11 @@ function DaylightGraph() {
       points.push({ x, y, time, altitude });
     }
 
-    // Create smooth SVG path using cubic Bezier curves with Catmull-Rom splines
+    // Create path with straight lines between points
     let path = `M ${points[0].x} ${points[0].y}`;
 
-    const tension = 0.3; // Controls the smoothness (0 = straight, 1 = very curved)
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = i > 0 ? points[i - 1] : points[i];
-      const p1 = points[i];
-      const p2 = points[i + 1];
-      const p3 = i < points.length - 2 ? points[i + 2] : p2;
-
-      // Calculate control points for cubic Bezier
-      const cp1x = p1.x + ((p2.x - p0.x) / 6) * tension;
-      const cp1y = p1.y + ((p2.y - p0.y) / 6) * tension;
-      const cp2x = p2.x - ((p3.x - p1.x) / 6) * tension;
-      const cp2y = p2.y - ((p3.y - p1.y) / 6) * tension;
-
-      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+    for (let i = 1; i < points.length; i++) {
+      path += ` L ${points[i].x} ${points[i].y}`;
     }
 
     return { path, points, minAlt, maxAlt };
@@ -194,9 +181,8 @@ function DaylightGraph() {
         <defs>
           <linearGradient id="sunPathGradient" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#fff" />
-            <stop offset="25%" stopColor="#787878" />
-            <stop offset="50%" stopColor="#0d0d0d" />
-            <stop offset="75%" stopColor="#0d0d0d" />
+            <stop offset="20%" stopColor="#787878" />
+            <stop offset="70%" stopColor="#0d0d0d" />
             <stop offset="100%" stopColor="#0d0d0d" stopOpacity="0" />
           </linearGradient>
         </defs>
