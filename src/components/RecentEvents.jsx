@@ -10,7 +10,7 @@ const Container = styled.div`
   overflow: hidden;
   box-sizing: border-box;
   gap: 1rem;
-  padding: 1.125rem 1.5rem 1.0625rem 1.5rem;
+  padding: 1.125rem 1.5rem 1.03125rem 1.5rem;
 `;
 
 const EventHeader = styled.div`
