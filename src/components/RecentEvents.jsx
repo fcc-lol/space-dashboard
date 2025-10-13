@@ -41,8 +41,7 @@ const EventCounter = styled.div`
 const EventNote = styled.p`
   font-size: 1rem;
   line-height: 1.75rem;
-  color: inherit;
-  opacity: 0.8;
+  color: ${(props) => props.theme?.text || "inherit"};
   margin: 0;
   text-align: left;
   width: 100%;
@@ -180,7 +179,7 @@ function RecentEvents({ theme }) {
           {currentIndex + 1} / {cmeData.length}
         </EventCounter>
       </EventHeader>
-      <EventNote $lineClamp={lineClamp}>
+      <EventNote theme={theme} $lineClamp={lineClamp}>
         {currentEvent.note || "No additional notes available."}
       </EventNote>
     </Container>

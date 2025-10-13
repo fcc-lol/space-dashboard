@@ -33,7 +33,6 @@ const Label = styled.div`
 
 const Value = styled.div`
   font-size: 1rem;
-  font-weight: 600;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
@@ -41,7 +40,7 @@ const Value = styled.div`
   text-overflow: ellipsis;
   flex-shrink: 0;
   margin-left: 1rem;
-  color: ${(props) => props.theme?.secondaryText || "inherit"};
+  color: ${(props) => props.theme?.text || "inherit"};
 `;
 
 function Table({ theme, rows }) {
