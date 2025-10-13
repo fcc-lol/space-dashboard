@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  color: #fff;
+  color: inherit;
 `;
 
 const Row = styled.div`
@@ -11,7 +11,7 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1.0625rem 1.5rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid ${(props) => props.theme.secondary};
 
   &:first-child {
     padding-top: 1.125rem;
@@ -24,8 +24,8 @@ const Row = styled.div`
 
 const Label = styled.div`
   font-size: 1rem;
-  font-weight: 600;
   text-transform: uppercase;
+  color: ${(props) => props.theme?.secondaryText || "inherit"};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -33,6 +33,7 @@ const Label = styled.div`
 
 const Value = styled.div`
   font-size: 1rem;
+  font-weight: 600;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
@@ -40,15 +41,16 @@ const Value = styled.div`
   text-overflow: ellipsis;
   flex-shrink: 0;
   margin-left: 1rem;
+  color: ${(props) => props.theme?.secondaryText || "inherit"};
 `;
 
-function Table({ rows }) {
+function Table({ theme, rows }) {
   return (
     <Container>
       {rows.map((row, index) => (
-        <Row key={index}>
-          <Label>{row.label}</Label>
-          <Value>{row.value}</Value>
+        <Row key={index} theme={theme}>
+          <Label theme={theme}>{row.label}</Label>
+          <Value theme={theme}>{row.value}</Value>
         </Row>
       ))}
     </Container>

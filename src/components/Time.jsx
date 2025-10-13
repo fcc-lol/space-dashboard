@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BigValue from "./BigValue";
 
-function TimeInfo() {
+function TimeInfo({ theme }) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -20,7 +20,13 @@ function TimeInfo() {
     return `${hours}:${minutes.toString().padStart(2, "0")}${ampm}`;
   };
 
-  return <BigValue label="New York Time" value={formatTime(currentTime)} />;
+  return (
+    <BigValue
+      theme={theme}
+      label="New York Time"
+      value={formatTime(currentTime)}
+    />
+  );
 }
 
 export default TimeInfo;

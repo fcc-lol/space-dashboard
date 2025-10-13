@@ -22,9 +22,9 @@ const LoadingPlaceholder = styled.div`
 `;
 
 const StyledImage = styled.img`
-  width: 90%;
-  height: 90%;
-  max-height: 90%;
+  width: ${(props) => props.$size};
+  height: ${(props) => props.$size};
+  max-height: ${(props) => props.$size};
   border-radius: 50%;
   object-fit: cover;
   object-position: center center;
@@ -33,7 +33,12 @@ const StyledImage = styled.img`
   transition: opacity 0.6s ease-out, filter 0.6s ease-out;
 `;
 
-function Image({ src, placeholderBackgroundColor, placeholderSize }) {
+function Image({
+  src,
+  placeholderBackgroundColor,
+  placeholderSize,
+  size = "90%"
+}) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -47,6 +52,7 @@ function Image({ src, placeholderBackgroundColor, placeholderSize }) {
         src={src}
         onLoad={() => setIsLoaded(true)}
         $isLoaded={isLoaded}
+        $size={size}
       />
     </ImageContainer>
   );

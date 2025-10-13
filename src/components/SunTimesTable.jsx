@@ -3,7 +3,7 @@ import SunCalc from "suncalc";
 import { LAT, LNG } from "../constants";
 import Table from "./Table";
 
-function SunTimesTable() {
+function SunTimesTable({ theme }) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function SunTimesTable() {
     { label: "Daylight Remaining", value: formatDaylightRemaining() }
   ];
 
-  return <Table rows={rows} />;
+  return <Table theme={theme} rows={rows} />;
 }
 
 export default SunTimesTable;

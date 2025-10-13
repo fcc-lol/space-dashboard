@@ -16,7 +16,7 @@ const Card = styled.div`
   width: 100%;
   padding: ${(props) => props.padding || "1.5rem"};
   border-radius: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid ${(props) => props.theme.secondary};
   box-sizing: border-box;
   overflow: auto;
   outline: none;
@@ -39,60 +39,62 @@ const Card = styled.div`
   }}
 `;
 
-const Container = styled.div`
+const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto auto 1fr;
   width: 100%;
   height: 100vh;
-  background: #000;
-  color: #fff;
+  background: ${(props) => props.theme.background};
+  color: ${(props) => props.theme.text};
   padding: 1.5rem;
   gap: 1.5rem;
   box-sizing: border-box;
   overflow: hidden;
 `;
 
-function Sun() {
+function Sun({ theme }) {
   const { data, loading } = useWeatherData();
 
   return (
-    <Container>
-      <Card type="compact" padding="0">
-        <TimeInfo />
+    <Grid theme={theme}>
+      <Card theme={theme} type="compact" padding="0">
+        <TimeInfo theme={theme} />
       </Card>
-      <Card type="compact" padding="0">
+      <Card theme={theme} type="compact" padding="0">
         <BigValue
+          theme={theme}
           label="UV Index"
           value={loading || !data ? 0 : data.uv.now.uvi.toFixed(2)}
           loading={loading || !data}
         />
       </Card>
-      <Card type="compact" padding="0">
+      <Card theme={theme} type="compact" padding="0">
         <BigValue
+          theme={theme}
           label="Cloud Cover"
           value={loading || !data ? 0 : `${data.cloudCover}%`}
           loading={loading || !data}
         />
       </Card>
-      <Card type="compact" padding="0">
+      <Card theme={theme} type="compact" padding="0">
         <Image
           src="https://space-api.fcc.lol/sun/image?wavelength=304"
-          placeholderBackgroundColor="rgba(139, 0, 0, 0.25)"
+          placeholderBackgroundColor={theme.secondary}
           placeholderSize="75%"
           aspectRatio="auto"
         />
       </Card>
-      <Card type="compact" style={{ gridColumn: "2 / 4" }}>
-        <DaylightGraph />
+      <Card theme={theme} type="compact" style={{ gridColumn: "2 / 4" }}>
+        <DaylightGraph theme={theme} />
       </Card>
-      <Card padding="0" $justifyContent="flex-start">
-        <SunTimesTable />
+      <Card theme={theme} padding="0" $justifyContent="flex-start">
+        <SunTimesTable theme={theme} />
       </Card>
-      <Card style={{ gridColumn: "2 / 4" }} padding="0">
-        <RecentEvents />
+      <Card theme={theme} style={{ gridColumn: "2 / 4" }} padding="0">
+        <RecentEvents theme={theme} />
       </Card>
-    </Container>
+    </Grid>
   );
 }
 

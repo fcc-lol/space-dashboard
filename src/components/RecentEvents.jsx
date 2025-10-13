@@ -6,7 +6,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: inherit;
   overflow: hidden;
   box-sizing: border-box;
   gap: 1rem;
@@ -24,7 +24,7 @@ const EventHeader = styled.div`
 const EventTime = styled.div`
   font-size: 1rem;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${(props) => props.theme?.secondaryText || "inherit"};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -33,7 +33,7 @@ const EventTime = styled.div`
 const EventCounter = styled.div`
   font-size: 1rem;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${(props) => props.theme?.secondaryText || "inherit"};
   flex-shrink: 0;
   white-space: nowrap;
 `;
@@ -41,7 +41,8 @@ const EventCounter = styled.div`
 const EventNote = styled.p`
   font-size: 1rem;
   line-height: 1.75rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: inherit;
+  opacity: 0.8;
   margin: 0;
   text-align: left;
   width: 100%;
@@ -57,10 +58,10 @@ const EventNote = styled.p`
 
 const LoadingMessage = styled.div`
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: ${(props) => props.theme?.secondaryText || "inherit"};
 `;
 
-function RecentEvents() {
+function RecentEvents({ theme }) {
   const [cmeData, setCmeData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -152,7 +153,7 @@ function RecentEvents() {
   if (loading) {
     return (
       <Container>
-        <LoadingMessage>Loading CME events...</LoadingMessage>
+        <LoadingMessage theme={theme}>Loading recentevents</LoadingMessage>
       </Container>
     );
   }
@@ -160,7 +161,9 @@ function RecentEvents() {
   if (cmeData.length === 0) {
     return (
       <Container>
-        <LoadingMessage>No CME events available</LoadingMessage>
+        <LoadingMessage theme={theme}>
+          No recent events available
+        </LoadingMessage>
       </Container>
     );
   }
@@ -170,8 +173,10 @@ function RecentEvents() {
   return (
     <Container ref={containerRef}>
       <EventHeader ref={headerRef}>
-        <EventTime>{formatDate(currentEvent.startTime)}</EventTime>
-        <EventCounter>
+        <EventTime theme={theme}>
+          {formatDate(currentEvent.startTime)}
+        </EventTime>
+        <EventCounter theme={theme}>
           {currentIndex + 1} / {cmeData.length}
         </EventCounter>
       </EventHeader>

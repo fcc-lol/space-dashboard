@@ -18,8 +18,7 @@ const TimeLabel = styled.div`
   position: absolute;
   bottom: -4px;
   font-size: 12px;
-  color: #fff;
-  opacity: 0.5;
+  color: ${(props) => props.theme?.secondaryText || "inherit"};
   transform: translateX(-50%);
   pointer-events: none;
   white-space: nowrap;
@@ -33,7 +32,7 @@ const TimeLabel = styled.div`
   }
 `;
 
-function DaylightGraph() {
+function DaylightGraph({ theme }) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [labelHeight, setLabelHeight] = useState(20);
   const [aspectRatio, setAspectRatio] = useState(1);
@@ -97,9 +96,11 @@ function DaylightGraph() {
   const height = 256;
   const labelSpace = labelHeight;
   const topPadding = 56;
+  const bottomPadding = 16;
   const padding = 0;
   const graphWidth = width - 2 * padding;
-  const graphHeight = height - labelSpace - 2 * padding - topPadding;
+  const graphHeight =
+    height - labelSpace - 2 * padding - topPadding - bottomPadding;
 
   // Time to x position (0-24 hours)
   const timeToX = (date) => {
@@ -142,7 +143,11 @@ function DaylightGraph() {
       const altitude = altitudes[i++];
       const normalizedAltitude = (altitude - minAlt) / (maxAlt - minAlt);
       const y =
-        height - labelSpace - padding - normalizedAltitude * graphHeight;
+        height -
+        labelSpace -
+        padding -
+        bottomPadding -
+        normalizedAltitude * graphHeight;
       points.push({ x, y, time, altitude });
     }
 
@@ -163,7 +168,13 @@ function DaylightGraph() {
     const position = SunCalc.getPosition(date, LAT, LNG);
     const altitude = position.altitude;
     const normalizedAltitude = (altitude - minAlt) / (maxAlt - minAlt);
-    return height - labelSpace - padding - normalizedAltitude * graphHeight;
+    return (
+      height -
+      labelSpace -
+      padding -
+      bottomPadding -
+      normalizedAltitude * graphHeight
+    );
   };
 
   const currentX = timeToX(currentTime);
@@ -180,10 +191,10 @@ function DaylightGraph() {
       <GraphSvg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
         <defs>
           <linearGradient id="sunPathGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fff" />
-            <stop offset="20%" stopColor="#787878" />
-            <stop offset="70%" stopColor="#0d0d0d" />
-            <stop offset="100%" stopColor="#0d0d0d" stopOpacity="0" />
+            <stop offset="0%" stopColor={theme.primary} />
+            <stop offset="20%" stopColor={theme.primary} />
+            <stop offset="70%" stopColor={theme.tertiary} />
+            <stop offset="100%" stopColor={theme.tertiary} stopOpacity="0" />
           </linearGradient>
         </defs>
         {/* Hourly markers */}
@@ -205,7 +216,7 @@ function DaylightGraph() {
               y1={2}
               x2={lineX}
               y2={height - labelSpace}
-              stroke="#0d0d0d"
+              stroke={theme.tertiary}
               strokeWidth="3"
               vectorEffect="non-scaling-stroke"
               strokeLinecap="round"
@@ -218,7 +229,7 @@ function DaylightGraph() {
           y1={horizonY}
           x2={width - 3}
           y2={horizonY}
-          stroke="#0d0d0d"
+          stroke={theme.tertiary}
           strokeWidth="3"
           vectorEffect="non-scaling-stroke"
         />
@@ -237,7 +248,7 @@ function DaylightGraph() {
           cy={currentY}
           rx={6 / aspectRatio}
           ry={6}
-          fill="#fff"
+          fill={theme.primary}
         />
       </GraphSvg>
       {/* Time labels as HTML */}
@@ -259,6 +270,7 @@ function DaylightGraph() {
         return (
           <TimeLabel
             key={hour}
+            theme={theme}
             ref={index === 0 ? labelRef : null}
             className={isFirst ? "first" : isLast ? "last" : ""}
             style={{ left: `${leftPercent}%` }}
