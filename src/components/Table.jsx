@@ -17,7 +17,7 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.03125rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   border-bottom: 2px solid ${(props) => props.theme.secondary};
 
   &:first-child {
