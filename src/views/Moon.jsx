@@ -75,7 +75,7 @@ function Moon({ theme }) {
         <BigValue
           theme={theme}
           label="Rise"
-          value={moonData?.usno?.rise || "00:00"}
+          value={moonData?.times?.rise || "00:00"}
           loading={moonLoading || !moonData}
         />
       </Card>
@@ -83,7 +83,7 @@ function Moon({ theme }) {
         <BigValue
           theme={theme}
           label="Highest over NYC"
-          value={moonData?.usno?.upperTransit || "00:00"}
+          value={moonData?.times?.upperTransit || "00:00"}
           loading={moonLoading || !moonData}
         />
       </Card>
@@ -91,13 +91,13 @@ function Moon({ theme }) {
         <BigValue
           theme={theme}
           label="Set"
-          value={moonData?.usno?.set || "00:00"}
+          value={moonData?.times?.set || "00:00"}
           loading={moonLoading || !moonData}
         />
       </Card>
       <Card theme={theme} type="compact" padding="0">
         <Image
-          src={moonLoading || !moonData ? "" : moonData.image.url}
+          src={moonLoading || !moonData ? "" : moonData.images.standard.url}
           placeholderBackgroundColor={theme.secondary}
           placeholderSize="75%"
           aspectRatio="auto"
@@ -118,7 +118,7 @@ function Moon({ theme }) {
           style={{ flex: 1, gridColumn: "2 / 4" }}
           padding="0"
         >
-          <MoonPhase theme={theme} phaseName={moonData?.usno?.phase} />
+          <MoonPhase theme={theme} phaseName={moonData?.phase?.name} />
         </Card>
         <div
           style={{
@@ -135,7 +135,7 @@ function Moon({ theme }) {
               value={
                 moonLoading || !moonData
                   ? "0%"
-                  : `${moonData.phase.toFixed(0)}%`
+                  : `${moonData.phase.illumination.toFixed(0)}%`
               }
               loading={moonLoading || !moonData}
             />
@@ -147,7 +147,7 @@ function Moon({ theme }) {
               value={
                 moonLoading || !moonData
                   ? "0 days"
-                  : `${moonData.age.toFixed(0)} days`
+                  : `${moonData.phase.age.toFixed(0)} days`
               }
               loading={moonLoading || !moonData}
             />
@@ -181,17 +181,17 @@ function Moon({ theme }) {
               : [
                   {
                     label: "Diameter",
-                    value: `${moonData.diameter.toFixed(1)}′`
+                    value: `${(moonData.position.diameter / 60).toFixed(1)}′`
                   },
                   {
                     label: "Distance",
                     value: `${Math.round(
-                      moonData.distance / 1.60934
+                      moonData.position.distance / 1.60934
                     ).toLocaleString()} mi`
                   },
                   {
                     label: "Position Angle",
-                    value: `${moonData.posangle.toFixed(2)}°`
+                    value: `${moonData.position.posangle.toFixed(2)}°`
                   },
                   {
                     label: "Obscuration",
@@ -216,7 +216,7 @@ function Moon({ theme }) {
           padding="0.75rem"
           style={{ flex: 1 }}
         >
-          <MoonProgress theme={theme} illumination={moonData?.phase} />
+          <MoonProgress theme={theme} illumination={moonData?.phase?.illumination} />
         </Card>
         <Card
           theme={theme}
@@ -224,7 +224,7 @@ function Moon({ theme }) {
           padding="0.75rem"
           style={{ flex: 1 }}
         >
-          <MoonProgress theme={theme} age={moonData?.age} />
+          <MoonProgress theme={theme} age={moonData?.phase?.age} />
         </Card>
       </div>
     </Container>
