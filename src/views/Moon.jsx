@@ -137,6 +137,7 @@ function Moon({ theme }) {
           placeholderSize="75%"
           aspectRatio="auto"
           size="80%"
+          zoom={1.12}
         />
       </ImageCard>
       <GridSection>

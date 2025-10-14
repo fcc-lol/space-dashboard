@@ -11,6 +11,17 @@ const ImageContainer = styled.div`
   aspect-ratio: 1;
 `;
 
+const ImageMask = styled.div`
+  position: relative;
+  width: ${(props) => props.$size};
+  height: ${(props) => props.$size};
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const LoadingPlaceholder = styled.div`
   position: absolute;
   width: ${(props) => props.$size};
@@ -22,22 +33,22 @@ const LoadingPlaceholder = styled.div`
 `;
 
 const StyledImage = styled.img`
-  width: ${(props) => props.$size};
-  height: ${(props) => props.$size};
-  max-height: ${(props) => props.$size};
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center center;
   opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   filter: ${(props) => (props.$isLoaded ? "blur(0px)" : "blur(10px)")};
   transition: opacity 0.6s ease-out, filter 0.6s ease-out;
+  transform: scale(${(props) => props.$zoom});
 `;
 
 function Image({
   src,
   placeholderBackgroundColor,
   placeholderSize,
-  size = "90%"
+  size = "90%",
+  zoom = 1
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -48,12 +59,14 @@ function Image({
         $backgroundColor={placeholderBackgroundColor}
         $size={placeholderSize}
       />
-      <StyledImage
-        src={src}
-        onLoad={() => setIsLoaded(true)}
-        $isLoaded={isLoaded}
-        $size={size}
-      />
+      <ImageMask $size={size}>
+        <StyledImage
+          src={src}
+          onLoad={() => setIsLoaded(true)}
+          $isLoaded={isLoaded}
+          $zoom={zoom}
+        />
+      </ImageMask>
     </ImageContainer>
   );
 }
