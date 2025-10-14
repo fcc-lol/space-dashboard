@@ -25,7 +25,7 @@ const Row = styled.div`
   }
 
   &:last-child {
-    border-bottom: none;
+    border-bottom: 2px solid transparent;
   }
 `;
 

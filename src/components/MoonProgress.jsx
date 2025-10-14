@@ -8,6 +8,12 @@ const Bars = styled.div`
   height: 100%;
   justify-content: center;
   align-items: flex-end;
+  padding: 0;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
 `;
 
 const Bar = styled.div`
@@ -15,7 +21,7 @@ const Bar = styled.div`
   height: 100%;
   background: ${(props) =>
     props.$isFilled ? props.theme.secondaryText : props.theme.secondary};
-  border-radius: 0.25rem;
+  border-radius: calc(0.25rem + 2px);
   transition: background 0.3s ease;
 `;
 

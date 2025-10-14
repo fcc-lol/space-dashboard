@@ -11,6 +11,10 @@ const Container = styled.div`
   box-sizing: border-box;
   gap: 1rem;
   padding: 1.125rem 1.5rem 1.03125rem 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 `;
 
 const EventHeader = styled.div`

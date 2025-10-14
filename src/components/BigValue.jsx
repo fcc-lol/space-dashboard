@@ -9,6 +9,10 @@ const Container = styled.div`
   width: 100%;
   gap: 0.5rem;
   padding: 1rem 0 0.875rem 0;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 0 1rem 0;
+  }
 `;
 
 const Label = styled.div`
@@ -19,6 +23,7 @@ const Label = styled.div`
   color: ${(props) => props.theme?.secondaryText || "inherit"};
   margin-bottom: 0.5rem;
   text-align: center;
+  min-height: 1.5rem;
 `;
 
 const Value = styled.div`
@@ -29,6 +34,7 @@ const Value = styled.div`
   opacity: ${(props) => (props.$loading ? 0.1 : 1)};
   transition: opacity 0.3s ease;
   text-align: center;
+  min-height: 4rem;
 `;
 
 function BigValue({ theme, label, value, loading }) {

@@ -6,38 +6,8 @@ import TimeInfo from "../components/Time";
 import SunTimesTable from "../components/SunTimesTable";
 import RecentEvents from "../components/RecentEvents";
 import BigValue from "../components/BigValue";
+import Card from "../components/Card";
 import { useWeatherData } from "../hooks/useWeatherData";
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: ${(props) => props.$justifyContent || "center"};
-  width: 100%;
-  padding: ${(props) => props.padding || "1.5rem"};
-  border-radius: 1rem;
-  border: 2px solid ${(props) => props.theme.secondary};
-  box-sizing: border-box;
-  overflow: auto;
-  outline: none;
-
-  ${(props) => {
-    if (props.type === "square") {
-      return `
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0;
-      `;
-    } else if (props.type === "compact") {
-      return `
-        flex-shrink: 0;
-      `;
-    } else {
-      return `
-        height: 100%;
-      `;
-    }
-  }}
-`;
 
 const Grid = styled.div`
   display: grid;
@@ -51,6 +21,28 @@ const Grid = styled.div`
   gap: 1.5rem;
   box-sizing: border-box;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+`;
+
+const GridSpan = styled(Card)`
+  grid-column: 2 / 4;
+
+  @media (max-width: 768px) {
+    grid-column: 1;
+  }
+`;
+
+const ImageCard = styled(Card)`
+  @media (max-width: 768px) {
+    order: -1;
+  }
 `;
 
 function Sun({ theme }) {
@@ -91,23 +83,23 @@ function Sun({ theme }) {
           loading={loading || !data}
         />
       </Card>
-      <Card theme={theme} type="compact" padding="0">
+      <ImageCard theme={theme} type="compact" padding="0">
         <Image
           src="https://space-api.fcc.lol/sun/image?wavelength=304"
           placeholderBackgroundColor={theme.secondary}
           placeholderSize="75%"
           aspectRatio="auto"
         />
-      </Card>
-      <Card theme={theme} type="compact" style={{ gridColumn: "2 / 4" }}>
+      </ImageCard>
+      <GridSpan theme={theme} type="compact">
         <DaylightGraph theme={theme} />
-      </Card>
+      </GridSpan>
       <Card theme={theme} padding="0" $justifyContent="flex-start">
         <SunTimesTable theme={theme} />
       </Card>
-      <Card theme={theme} style={{ gridColumn: "2 / 4" }} padding="0">
+      <GridSpan theme={theme} padding="0">
         <RecentEvents theme={theme} />
-      </Card>
+      </GridSpan>
     </Grid>
   );
 }

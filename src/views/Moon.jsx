@@ -5,38 +5,8 @@ import MoonProgress from "../components/MoonProgress";
 import Image from "../components/Image";
 import Table from "../components/Table";
 import BigValue from "../components/BigValue";
+import Card from "../components/Card";
 import { useMoonData } from "../hooks/useMoonData";
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: ${(props) => props.$justifyContent || "center"};
-  width: 100%;
-  padding: ${(props) => props.padding || "1.5rem"};
-  border-radius: 1rem;
-  border: 2px solid ${(props) => props.theme.secondary};
-  box-sizing: border-box;
-  overflow: auto;
-  outline: none;
-
-  ${(props) => {
-    if (props.type === "square") {
-      return `
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0;
-      `;
-    } else if (props.type === "compact") {
-      return `
-        flex-shrink: 0;
-      `;
-    } else {
-      return `
-        height: 100%;
-      `;
-    }
-  }}
-`;
 
 const Container = styled.div`
   display: grid;
@@ -50,6 +20,71 @@ const Container = styled.div`
   gap: 1.5rem;
   box-sizing: border-box;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+`;
+
+const GridSection = styled.div`
+  grid-column: 2 / 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-column: 1;
+  }
+`;
+
+const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    flex: none;
+  }
+`;
+
+const ValueWithProgressCard = styled(Card)`
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    height: auto;
+    overflow: visible;
+  }
+`;
+
+const MobileProgressWrapper = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 100%;
+    height: 150px;
+    flex-shrink: 0;
+  }
+`;
+
+const DesktopProgressSection = styled(GridSection)`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const ImageCard = styled(Card)`
+  @media (max-width: 768px) {
+    order: -1;
+  }
 `;
 
 function Moon({ theme }) {
@@ -95,7 +130,7 @@ function Moon({ theme }) {
           loading={moonLoading || !moonData}
         />
       </Card>
-      <Card theme={theme} type="compact" padding="0">
+      <ImageCard theme={theme} type="compact" padding="0">
         <Image
           src={moonLoading || !moonData ? "" : moonData.images.standard.url}
           placeholderBackgroundColor={theme.secondary}
@@ -103,32 +138,13 @@ function Moon({ theme }) {
           aspectRatio="auto"
           size="80%"
         />
-      </Card>
-      <div
-        style={{
-          gridColumn: "2 / 4",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1.5rem"
-        }}
-      >
-        <Card
-          theme={theme}
-          type="compact"
-          style={{ flex: 1, gridColumn: "2 / 4" }}
-          padding="0"
-        >
+      </ImageCard>
+      <GridSection>
+        <Card theme={theme} type="compact" style={{ flex: 1 }}>
           <MoonPhase theme={theme} phaseName={moonData?.phase?.name} />
         </Card>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "1.5rem",
-            flex: 1
-          }}
-        >
-          <Card theme={theme} padding="0">
+        <FlexRow>
+          <ValueWithProgressCard theme={theme} padding="0">
             <BigValue
               theme={theme}
               label="Illuminated"
@@ -139,8 +155,14 @@ function Moon({ theme }) {
               }
               loading={moonLoading || !moonData}
             />
-          </Card>
-          <Card theme={theme} padding="0">
+            <MobileProgressWrapper>
+              <MoonProgress
+                theme={theme}
+                illumination={moonData?.phase?.illumination}
+              />
+            </MobileProgressWrapper>
+          </ValueWithProgressCard>
+          <ValueWithProgressCard theme={theme} padding="0">
             <BigValue
               theme={theme}
               label="Age"
@@ -151,9 +173,12 @@ function Moon({ theme }) {
               }
               loading={moonLoading || !moonData}
             />
-          </Card>
-        </div>
-      </div>
+            <MobileProgressWrapper>
+              <MoonProgress theme={theme} age={moonData?.phase?.age} />
+            </MobileProgressWrapper>
+          </ValueWithProgressCard>
+        </FlexRow>
+      </GridSection>
       <Card theme={theme} padding="0" $justifyContent="flex-start">
         <Table
           theme={theme}
@@ -201,35 +226,29 @@ function Moon({ theme }) {
           }
         />
       </Card>
-      <div
-        style={{
-          gridColumn: "2 / 4",
-          display: "flex",
-          flexDirection: "row",
-          gap: "1.5rem",
-          flex: 1
-        }}
-      >
-        <Card
-          theme={theme}
-          type="compact"
-          padding="0.75rem"
-          style={{ flex: 1 }}
-        >
-          <MoonProgress
+      <DesktopProgressSection style={{ flex: 1 }}>
+        <FlexRow>
+          <Card
             theme={theme}
-            illumination={moonData?.phase?.illumination}
-          />
-        </Card>
-        <Card
-          theme={theme}
-          type="compact"
-          padding="0.75rem"
-          style={{ flex: 1 }}
-        >
-          <MoonProgress theme={theme} age={moonData?.phase?.age} />
-        </Card>
-      </div>
+            type="compact"
+            padding="0.75rem"
+            style={{ flex: 1 }}
+          >
+            <MoonProgress
+              theme={theme}
+              illumination={moonData?.phase?.illumination}
+            />
+          </Card>
+          <Card
+            theme={theme}
+            type="compact"
+            padding="0.75rem"
+            style={{ flex: 1 }}
+          >
+            <MoonProgress theme={theme} age={moonData?.phase?.age} />
+          </Card>
+        </FlexRow>
+      </DesktopProgressSection>
     </Container>
   );
 }
