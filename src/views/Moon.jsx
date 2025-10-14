@@ -216,7 +216,10 @@ function Moon({ theme }) {
           padding="0.75rem"
           style={{ flex: 1 }}
         >
-          <MoonProgress theme={theme} illumination={moonData?.phase?.illumination} />
+          <MoonProgress
+            theme={theme}
+            illumination={moonData?.phase?.illumination}
+          />
         </Card>
         <Card
           theme={theme}
