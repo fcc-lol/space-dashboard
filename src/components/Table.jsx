@@ -3,10 +3,17 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
+  height: 100%;
   color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const Row = styled.div`
+  width: calc(100% - 3rem);
+  flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
