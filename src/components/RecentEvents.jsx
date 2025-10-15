@@ -35,11 +35,28 @@ const EventTime = styled.div`
 `;
 
 const EventCounter = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
   font-size: 1rem;
   text-transform: uppercase;
   color: ${(props) => props.theme?.secondaryText || "inherit"};
   flex-shrink: 0;
   white-space: nowrap;
+`;
+
+const EventPaginationArrow = styled.div`
+  width: 0.875rem;
+  height: 0.875rem;
+  border-width: 1px 1px 0 0;
+  border-style: solid;
+  border-color: ${(props) => props.theme?.text || "inherit"};
+  transform: rotate(
+    ${(props) => (props.direction === "left" ? "-135deg" : "45deg")}
+  );
+  cursor: pointer;
 `;
 
 const EventNote = styled.p`
@@ -144,13 +161,13 @@ function RecentEvents({ theme }) {
       month: "short",
       day: "numeric",
       year: "numeric",
-      timeZone: "America/New_York"
+      timeZone: "America/New_York",
     });
     const timePart = date.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       timeZone: "America/New_York",
-      timeZoneName: "short"
+      timeZoneName: "short",
     });
     return `${datePart} · ${timePart}`;
   };
@@ -182,7 +199,15 @@ function RecentEvents({ theme }) {
           {formatDate(currentEvent.startTime)}
         </EventTime>
         <EventCounter theme={theme}>
+          <EventPaginationArrow
+            onClick={() => setCurrentIndex(currentIndex - 1)}
+            direction="left"
+          />
           {currentIndex + 1} / {cmeData.length}
+          <EventPaginationArrow
+            onClick={() => setCurrentIndex(currentIndex + 1)}
+            direction="right"
+          />
         </EventCounter>
       </EventHeader>
       <EventNote theme={theme} $lineClamp={lineClamp}>
