@@ -39,7 +39,7 @@ const EventCounter = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.25rem;
   font-size: 1rem;
   text-transform: uppercase;
   color: ${(props) => props.theme?.secondaryText || "inherit"};
@@ -47,16 +47,30 @@ const EventCounter = styled.div`
   white-space: nowrap;
 `;
 
+const EventPaginationArrowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.1s ease-in-out;
+
+  &:active {
+    opacity: 0.5;
+  }
+`;
+
 const EventPaginationArrow = styled.div`
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 0.625rem;
+  height: 0.625rem;
   border-width: 1px 1px 0 0;
   border-style: solid;
   border-color: ${(props) => props.theme?.text || "inherit"};
   transform: rotate(
     ${(props) => (props.direction === "left" ? "-135deg" : "45deg")}
   );
-  cursor: pointer;
+  pointer-events: none;
 `;
 
 const EventNote = styled.p`
@@ -161,13 +175,13 @@ function RecentEvents({ theme }) {
       month: "short",
       day: "numeric",
       year: "numeric",
-      timeZone: "America/New_York",
+      timeZone: "America/New_York"
     });
     const timePart = date.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       timeZone: "America/New_York",
-      timeZoneName: "short",
+      timeZoneName: "short"
     });
     return `${datePart} · ${timePart}`;
   };
@@ -199,15 +213,22 @@ function RecentEvents({ theme }) {
           {formatDate(currentEvent.startTime)}
         </EventTime>
         <EventCounter theme={theme}>
-          <EventPaginationArrow
-            onClick={() => setCurrentIndex(currentIndex - 1)}
-            direction="left"
-          />
-          {currentIndex + 1} / {cmeData.length}
-          <EventPaginationArrow
-            onClick={() => setCurrentIndex(currentIndex + 1)}
-            direction="right"
-          />
+          <EventPaginationArrowWrapper
+            onClick={() =>
+              setCurrentIndex(
+                (currentIndex - 1 + cmeData.length) % cmeData.length
+              )
+            }
+          >
+            <EventPaginationArrow direction="left" />
+          </EventPaginationArrowWrapper>
+          {String(currentIndex + 1).padStart(2, "0")} /{" "}
+          {String(cmeData.length).padStart(2, "0")}
+          <EventPaginationArrowWrapper
+            onClick={() => setCurrentIndex((currentIndex + 1) % cmeData.length)}
+          >
+            <EventPaginationArrow direction="right" />
+          </EventPaginationArrowWrapper>
         </EventCounter>
       </EventHeader>
       <EventNote theme={theme} $lineClamp={lineClamp}>
