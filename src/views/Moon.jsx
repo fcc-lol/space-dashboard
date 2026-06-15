@@ -132,7 +132,7 @@ function Moon({ theme }) {
       </Card>
       <ImageCard theme={theme} type="compact" padding="0">
         <Image
-          src={moonLoading || !moonData ? "" : moonData.images.standard.url}
+          src={moonLoading || !moonData ? "" : (moonData.images?.standard?.url ?? "")}
           placeholderBackgroundColor={theme.secondary}
           placeholderSize="75%"
           aspectRatio="auto"
